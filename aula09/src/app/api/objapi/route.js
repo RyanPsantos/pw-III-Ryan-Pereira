@@ -1,14 +1,49 @@
-import 'firebase/firestore';
-import 'firebase/auth';
-import firebase from 'firebase/app';
+import { db } from './../../firebaseConfig'; 
+import { collection, addDoc, updateDoc, doc, deleteDoc, getDocs } from 'firebase/firestore';
 
-const firebaseConfig = {
-    apiKey: "AIzaSyAEIcTi2iiG0T2aGKSxpo6-uaR0KchlD4Y",
-    authDomain: "meuprimeirofirebase-2ba8a.firebaseapp.com",
-    projectId: "meuprimeirofirebase-2ba8a",
-    storageBucket: "meuprimeirofirebase-2ba8a.firebasestorage.app",
-    messagingSenderId: "465349594628",
-    appId: "1:465349594628:web:a83187248e9a1f2d652f51"
-  };
 
-  firebase.initializeApp(firebaseConfig);
+export const obterItens = async () => {
+  try {
+    const querySnapshot = await getDocs(collection(db, "items"));
+    const itensObtidos = querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+    return itensObtidos;
+  } catch (error) {
+    console.error('Erro ao carregar os itens:', error);
+    throw error;
+  }
+};
+
+
+export const addItem = async (nome) => {
+  try {
+    await addDoc(collection(db, 'items'), { name: nome });
+  } catch (error) {
+    console.error('Erro ao adicionar o item:', error);
+    throw error;
+  }
+};
+
+
+export const atualizarItem = async (id, nome) => {
+  try {
+    const itemRef = doc(db, 'items', id);
+    await updateDoc(itemRef, { name: nome });
+  } catch (error) {
+    console.error('Erro ao atualizar o item:', error);
+    throw error;
+  }
+};
+
+
+export const deletarItem = async (id) => {
+  try {
+    const itemRef = doc(db, 'items', id);
+    await deleteDoc(itemRef);
+  } catch (error) {
+    console.error('Erro ao deletar o item:', error);
+    throw error;
+  }
+};
