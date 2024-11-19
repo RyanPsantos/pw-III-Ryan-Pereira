@@ -27,7 +27,7 @@ export const addItem = async (nome) => {
 };
 
 
-export const atualizarItem = async (id, nome) => {
+export const updateItem = async (id, nome) => {
   try {
     const itemRef = doc(db, 'items', id);
     await updateDoc(itemRef, { name: nome });
@@ -38,7 +38,7 @@ export const atualizarItem = async (id, nome) => {
 };
 
 
-export const deletarItem = async (id) => {
+export const deleteItem = async (id) => {
   try {
     const itemRef = doc(db, 'items', id);
     await deleteDoc(itemRef);

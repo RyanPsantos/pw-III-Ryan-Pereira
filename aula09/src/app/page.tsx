@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { obterItens, addItem, atualizarItem, deletarItem } from './api/objapi/route.js'; 
+import { obterItens, addItem, updateItem, deleteItem } from './api/objapi/route.js'; 
 
 const App = () => {
   const [itens, setItens] = useState([]);
@@ -52,7 +52,7 @@ const App = () => {
     }
 
     try {
-      await atualizarItem(itemEditando as string, nome); 
+      await updateItem(itemEditando as string, nome); 
       alert('Sucesso: Item atualizado com sucesso!');
       setItemEditando(null);
       setNome('');
@@ -66,7 +66,7 @@ const App = () => {
 
   const deletarItemHandler = async (id: string) => {
     try {
-      await deletarItem(id); 
+      await deleteItem(id); 
       alert('Sucesso: Item deletado com sucesso!');
       
       const itensObtidos = await obterItens();
